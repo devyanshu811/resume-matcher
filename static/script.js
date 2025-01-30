@@ -14,13 +14,16 @@ document.getElementById('matchForm').addEventListener('submit', async (e) => {
         });
         
         const data = await response.json();
+        console.log('Response data:', data);  // Debug log
         
         if (response.ok) {
             displayResults(data);
         } else {
+            console.error('Error response:', data);  // Debug log
             alert(data.error || 'An error occurred while processing the resume');
         }
     } catch (error) {
+        console.error('Request error:', error);  // Debug log
         alert('An error occurred while processing the request');
         console.error(error);
     } finally {
@@ -30,6 +33,7 @@ document.getElementById('matchForm').addEventListener('submit', async (e) => {
 });
 
 function displayResults(data) {
+    console.log('Displaying results:', data);  // Debug log
     const resultsDiv = document.getElementById('results');
     resultsDiv.classList.remove('d-none');
     
@@ -41,12 +45,14 @@ function displayResults(data) {
     
     // Update matching skills
     const matchingSkillsList = resultsDiv.querySelector('.matching-skills .skills-list');
+    console.log('Matching skills:', data.matching_skills);  // Debug log
     matchingSkillsList.innerHTML = data.matching_skills
         .map(skill => `<span class="skill-tag">${skill}</span>`)
         .join('');
     
     // Update missing skills
     const missingSkillsList = resultsDiv.querySelector('.missing-skills .skills-list');
+    console.log('Missing skills:', data.missing_skills);  // Debug log
     missingSkillsList.innerHTML = data.missing_skills
         .map(skill => `<span class="skill-tag">${skill}</span>`)
         .join('');
