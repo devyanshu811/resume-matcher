@@ -81,8 +81,11 @@ def home():
 @app.route('/match', methods=['POST'])
 def match_resume():
     try:
+        print("Received request")  # Debug log
         resume_file = request.files['resume']
         job_description = request.form['job_description']
+        
+        print(f"File type: {resume_file.filename}")  # Debug log
         
         # Extract text from resume based on file type
         if resume_file.filename.endswith('.pdf'):
@@ -92,9 +95,15 @@ def match_resume():
         else:
             return jsonify({'error': 'Unsupported file format'}), 400
         
+        print(f"Extracted text length: {len(resume_text)}")  # Debug log
+        print(f"Job description length: {len(job_description)}")  # Debug log
+        
         # Preprocess texts
         processed_resume = preprocess_text(resume_text)
         processed_job = preprocess_text(job_description)
+        
+        print(f"Processed resume length: {len(processed_resume)}")  # Debug log
+        print(f"Processed job length: {len(processed_job)}")  # Debug log
         
         # Calculate match score
         match_score = calculate_match_score(processed_resume, processed_job)
@@ -103,17 +112,23 @@ def match_resume():
         resume_skills = extract_skills(resume_text)
         required_skills = extract_skills(job_description)
         
+        print(f"Resume skills: {resume_skills}")  # Debug log
+        print(f"Required skills: {required_skills}")  # Debug log
+        
         # Calculate skills match
         matching_skills = list(set(resume_skills) & set(required_skills))
         missing_skills = list(set(required_skills) - set(resume_skills))
         
-        return jsonify({
+        result = {
             'match_score': round(match_score, 2),
             'matching_skills': matching_skills,
             'missing_skills': missing_skills
-        })
+        }
+        print(f"Result: {result}")  # Debug log
+        return jsonify(result)
     
     except Exception as e:
+        print(f"Error: {str(e)}")  # Debug log
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
