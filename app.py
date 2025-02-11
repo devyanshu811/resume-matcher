@@ -154,6 +154,6 @@ def match_resume():
 
 if __name__ == '__main__':
     try:
-        app.run(host='0.0.0.0', port=8080, debug=True)
+        app.run(host='0.0.0.0', port=3000, debug=True)
     except Exception as e:
         print(f"Error starting server: {e}")

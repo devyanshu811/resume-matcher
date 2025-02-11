@@ -37,7 +37,7 @@ python -m spacy download en_core_web_sm
 python app.py
 ```
 
-2. Open your web browser and navigate to `http://localhost:8080`
+2. Open your web browser and navigate to `http://localhost:3000`
 3. Upload a resume (PDF or DOCX format)
 4. Enter the job description
 5. Click "Analyze Match" to see the results
